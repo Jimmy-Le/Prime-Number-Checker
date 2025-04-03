@@ -2,7 +2,7 @@
 ; Jimmy Le ID 40316405
 ; Arielle Wong 40313593
 ; Joaquin
-; Josh
+; Josh 40385958
 
 
 ; ### INITIALIZE VARIABLES HERE ###
@@ -80,14 +80,26 @@ ASKAGAIN:
 ; ### Return 1 if it IS divisable by 2
 ; ### Return 0 if it is NOT divisable by 2
 ; ### Try to save result* 
-divide_by_two: 
-	
-	
 
+divide_by_two:
 
+	mov eax, number		; dividend
+	xor edx, edx		; clear high part (remainder will be stored here automatically)
+	mov ecx, 2		; divisor
+	div ecx 		; computes eax = eax/ecx
 
+	cmp edx, 0		; compare edx to 0
+	ja is_above_zero
 
+; else: is equal to 0
+	mov byte [answer], 1		; return 1 if it is divisable by 2
+	ret			; return
 
+; if: is above 0
+is_above_zero:
+
+	mov byte [answer], 0	; return 0 if it isnt divisible by 2 ie: there exist a remainder
+	ret			; return
 
 ; ### DIVIDE BY ODD ###
 ; ### This function should divide a given number by 2n + 1 and check if the remainder is 0
@@ -126,8 +138,8 @@ display_not_prime:
 ; ### MAIN FUNCTION ###
 ; ### We will use this to call the subroutines and simple code
 _start: 
-	call get_inputs		;jumps to get inputs
-
+	call divide_by_two
+	
 
 
 
