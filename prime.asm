@@ -82,31 +82,27 @@ ASKAGAIN:
 ; ### Try to save result* 
 
 divide_by_two:
+        mov eax, [number]
+        shr eax, 1		;shifts bits to the right, divides by 2
 
-	mov eax, number		; dividend
-	xor edx, edx		; clear high part (remainder will be stored here automatically)
-	mov ecx, 2		; divisor
-	div ecx 		; computes eax = eax/ecx
+        jc is_above_zero	;check carry, if so jump to is_above_zero
+        mov [half_number], eax
+        mov eax, 0              ; return 0 if it is divisable by 2
+        ret                     ; return
 
-	cmp edx, 0		; compare edx to 0
-	ja is_above_zero
-
-; else: is equal to 0
-	mov byte [answer], 1		; return 1 if it is divisable by 2
-	ret			; return
-
-; if: is above 0
 is_above_zero:
+        mov [half_number], eax
+        mov eax, 1		; return 1 if it isnt divisible by 2 ie: there exist a remainder
+        ret                     ; return
 
-	mov byte [answer], 0	; return 0 if it isnt divisible by 2 ie: there exist a remainder
-	ret			; return
+
+
 
 ; ### DIVIDE BY ODD ###
 ; ### This function should divide a given number by 2n + 1 and check if the remainder is 0
 ; ### n should keep incrementing and 2n + 1 should be less than number/2 (LOOP IN _start)  
 ; ### Return 1 if it IS divisable by 2n + 1
 ; ### Return 0 if it is NOT divisable by 2n + 1
-divide_by_odd: 
 
 
 
