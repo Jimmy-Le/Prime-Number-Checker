@@ -12,7 +12,7 @@ section .data
 	 
 	number dd 19                       						; ### TEST NUMBER (CHANGE LATER)
 	answer dd 1                       						; ### ANSWER (1 for prime, 0 for composite number)
-	half_number dd 10		  						; ### The number halved                   UPDATE THIS WHEN CHANGING NUMBER OR IN DIVIDE_BY_2 
+				  						 
 		
 		
 	
@@ -32,7 +32,7 @@ section .data
 ; ### UNINITIALIZED VARIABLES HERE ###
 section .bss
 	user_input resb 32								; ### USER INPUT 
-
+	half_number resb 32 								; ### Half of the user input
 
 
 ; ### PUT CODE (SUBROUTINES) IN HERE ### 
@@ -138,14 +138,14 @@ convert_to_number:
 divide_by_two:
         mov eax, [number]
         shr eax, 1		;shifts bits to the right, divides by 2
+        jc is_above_zero	;check carry, if it exists jump to is_above_zero
+        
 
-        jc is_above_zero	;check carry, if so jump to is_above_zero
-        mov [half_number], eax
-        mov eax, 0              ; return 0 if it is divisable by 2
+	mov eax, 0              ; return 0 if it is divisable by 2
         ret                     ; return
 
 is_above_zero:
-        mov [half_number], eax
+	mov [half_number], eax
         mov eax, 1		; return 1 if it isnt divisible by 2 ie: there exist a remainder
         ret                     ; return
 
@@ -246,17 +246,17 @@ _start:
 	je prime_condition
 
 
-	;call divide_by_two		; ### Check if the number is even (NOT prime)	
-	;cmp eax 1
-	;je prime_condition 
+	call divide_by_two		; ### Check if the number is even (NOT prime)	
+	cmp eax, 0
+	je not_prime_condition 
 
 	
 
-	call divide_by_odd		; ### Check if the number is divisable by odd numbers (starting from 3 until half of the number)
-	cmp eax, 1 
-	je prime_condition
-	cmp eax, 0		
-	je not_prime_condition
+	;call divide_by_odd		; ### Check if the number is divisable by odd numbers (starting from 3 until half of the number)
+	;cmp eax, 1 
+	;je prime_condition
+	;cmp eax, 0		
+	;je not_prime_condition
 	 
 	
 prime_condition: 			; ### Actions to take if PRIME
