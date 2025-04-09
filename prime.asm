@@ -2,8 +2,9 @@
 ; Group Members
 ; Jimmy Le ID 40316405
 ; Arielle Wong 40313593
+; Josh 40385958
 ; Joaquin Nahman 40270510
-; Josh
+
 
 
 ; ### INITIALIZE VARIABLES HERE ###
@@ -133,13 +134,20 @@ convert_to_number:
 ; ### Return 0 if it IS divisable by 2
 ; ### Return 1 if it is NOT divisable by 2
 ; ### Try to save result* 
-divide_by_two: 
-	
-	
 
-	
+divide_by_two:
+        mov eax, [number]
+        shr eax, 1		;shifts bits to the right, divides by 2
 
+        jc is_above_zero	;check carry, if so jump to is_above_zero
+        mov [half_number], eax
+        mov eax, 0              ; return 0 if it is divisable by 2
+        ret                     ; return
 
+is_above_zero:
+        mov [half_number], eax
+        mov eax, 1		; return 1 if it isnt divisible by 2 ie: there exist a remainder
+        ret                     ; return
 
 
 ; ### DIVIDE BY ODD ###
@@ -168,6 +176,7 @@ divide_by_odd:
 		
 		add byte [odd_number], 2		; ### Increment the odd number by 2 and continue the loop
 		jmp .start_loop
+
 
 
 		
@@ -235,7 +244,6 @@ _start:
 	je prime_condition 
 	cmp eax, 3
 	je prime_condition
-
 
 
 	;call divide_by_two		; ### Check if the number is even (NOT prime)	
