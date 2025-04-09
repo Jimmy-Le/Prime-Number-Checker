@@ -252,11 +252,11 @@ _start:
 
 	
 
-	;call divide_by_odd		; ### Check if the number is divisable by odd numbers (starting from 3 until half of the number)
-	;cmp eax, 1 
-	;je prime_condition
-	;cmp eax, 0		
-	;je not_prime_condition
+	call divide_by_odd		; ### Check if the number is divisable by odd numbers (starting from 3 until half of the number)
+	cmp eax, 1 
+	je prime_condition
+	cmp eax, 0		
+	je not_prime_condition
 	 
 	
 prime_condition: 			; ### Actions to take if PRIME
