@@ -2,7 +2,7 @@
 ; Group Members
 ; Jimmy Le ID 40316405
 ; Arielle Wong 40313593
-; Josh 40385958
+; Joshua Graham 40385958
 ; Joaquin Nahman 40270510
 
 
