@@ -11,7 +11,7 @@
 section .data 
 	 
 	number dd 19                       						; ### TEST NUMBER (CHANGE LATER)
-	answer dd 1                       						; ### ANSWER (1 for prime, 0 for composite number)
+	answer db 1                       						; ### ANSWER (1 for prime, 0 for composite number)
 				  						 
 		
 		
@@ -52,7 +52,7 @@ get_inputs:
 
 					;COLLECT NUMBER
 	mov eax, 3			;
-	mov ebx, 1			;
+	mov ebx, 0			;standard input
 	mov ecx, user_input		;will put collected input into number
 	mov edx, 32			;the length of the input should not exceed 3 characters (0-255)
 	int 80h				;collect the message
@@ -137,17 +137,17 @@ convert_to_number:
 
 divide_by_two:
         mov eax, [number]
-        shr eax, 1		;shifts bits to the right, divides by 2
-        jc is_above_zero	;check carry, if it exists jump to is_above_zero
+        shr eax, 1					; shifts bits to the right, divides by 2
+        jc is_above_zero				; check carry, if it exists jump to is_above_zero
         
 
-	mov eax, 0              ; return 0 if it is divisable by 2
-        ret                     ; return
+	mov eax, 0              			; return 0 if it is divisable by 2
+        ret                     			; return
 
 is_above_zero:
-	mov [half_number], eax
-        mov eax, 1		; return 1 if it isnt divisible by 2 ie: there exist a remainder
-        ret                     ; return
+	mov [half_number], eax				; store the number to be used later
+        mov eax, 1					; return 1 if it isnt divisible by 2 ie: there exist a remainder
+        ret                     			; return
 
 
 ; ### DIVIDE BY ODD ###
@@ -166,8 +166,8 @@ divide_by_odd:
 		div ebx
 				
 		
-		test edx, edx				; ### If the remainder is 0, then it is not a prime number
-		jz .found_divisor
+		test edx, edx				; ### If the remainder is 0, then it is not a prime number, skip to the end
+		jz .found_divisor			
 		
 
 		mov eax, [half_number]
@@ -183,13 +183,11 @@ divide_by_odd:
 .not_found_divisor:					; ### Return 1 if there were no divisors found
 
 		mov eax, 1
-		;call display_prime
 		ret
 		
 	
 .found_divisor:						; ### Return 0 if the number was divisable
 		mov eax, 0
-		;call display_not_prime
 		ret 
 	
 		  
@@ -263,7 +261,9 @@ prime_condition: 			; ### Actions to take if PRIME
 	call display_prime
 	jmp exit
 
-not_prime_condition:			; ### Actions to take if NOT prime
+not_prime_condition:
+					; ### Actions to take if NOT prime
+	mov byte [answer], 0
 	call display_not_prime
 	jmp exit
 
